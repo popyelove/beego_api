@@ -12,8 +12,7 @@ import (
 	"github.com/bitly/go-simplejson"
 )
 
-func Conf(key string) (res string){
-	schmeid :=beego.AppConfig.String("schmeid")
+func Conf(key string,schmeid string) (res string){
 	redis_key :=key+"_"+schmeid
 	log.Println(redis_key)
 	rds,err := redis.Dial(
@@ -50,7 +49,21 @@ func Conf(key string) (res string){
 			if err!=nil {
 				log.Println(err)
 			}
-			return js.Get("data").Get("value").MustString()
+			//rds.Do("set",key+"_"+schmeid,js.Get("data").Get("value").MustString())
+			if key!="all"{
+				return js.Get("data").Get("value").MustString()
+			}else {
+				rds_arr, _ :=js.Get("data").Array()
+				rds_map :=make(map[string]string)
+				for i,_ := range rds_arr{
+					arr :=js.Get("data").GetIndex(i)
+					rds_map[arr.Get("key").MustString()]=arr.Get("value").MustString()
+				}
+				ret_json,_ :=json.Marshal(rds_map)
+				return string(ret_json)
+				//return js.Get("data").Array()
+			}
+
 		}
 		return
 	}
