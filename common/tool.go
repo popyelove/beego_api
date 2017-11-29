@@ -1,6 +1,14 @@
 package common
 
-func SuccessData(data map[string]interface{}) (interface{}) {
+//func SuccessData(data map[string]interface{}) (interface{}) {
+// //str :=`{"ret":0,"msg":"ok","data":[]}`
+// str :=make(map[string]interface{})
+// str["ret"]=0
+// str["msg"]="成功"
+// str["data"]=data
+// return str
+//}
+func SuccessData(data interface{}) (interface{}) {
  //str :=`{"ret":0,"msg":"ok","data":[]}`
  str :=make(map[string]interface{})
  str["ret"]=0
