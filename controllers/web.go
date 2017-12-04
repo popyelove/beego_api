@@ -185,3 +185,18 @@ func (this *WebController) Roleall() {
 	this.Ctx.WriteString(string(json))
 
 }
+// @router /test [post]
+func (this *WebController) Test()  {
+	c = make(chan int)
+	go ready("tee",2)
+	go ready("chao",5)
+	fmt.Println("i am waiting but not too long")
+	a :=<-c
+	b :=<-c
+	fmt.Println(a,b)
+}
+var c chan int
+func ready(w string,sec int)  {
+	fmt.Println(w,"is ready")
+	c<-1
+}
